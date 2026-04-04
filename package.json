@@ -1,0 +1,1 @@
+{\n  "name": "Truck_Tracker",\n  "private": true,\n  "workspaces": [\n    "apps/mobile",\n    "services/billing-webhook"\n  ]\n}
