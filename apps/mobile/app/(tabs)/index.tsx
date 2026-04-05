@@ -1,5 +1,5 @@
-import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
-
+import { View, Text, Pressable, StyleSheet } from "react-native";
+import { router } from "expo-router";
 function ActionButton({
   title,
   subtitle,
@@ -26,23 +26,23 @@ export default function HomeScreen() {
       <Text style={styles.title}>Truck Tracker</Text>
       <Text style={styles.subtitle}>What do you want to do?</Text>
 
-      <View style={styles.grid}>
-        <ActionButton
-          title="Start Shift"
-          subtitle="Start a timer for today"
-          onPress={() => Alert.alert("Start Shift", "Coming soon")}
-        />
-        <ActionButton
-          title="New Load"
-          subtitle="Create a new load entry"
-          onPress={() => Alert.alert("New Load", "Coming soon")}
-        />
-        <ActionButton
-          title="Invoices"
-          subtitle="View/export invoices"
-          onPress={() => Alert.alert("Invoices", "Coming soon")}
-        />
-      </View>
+    <View style={styles.grid}>
+      <ActionButton
+        title="Start Shift"
+        subtitle="Start a timer for today"
+        onPress={() => router.push("/(tabs)/start-shift")}
+      />
+    <ActionButton
+        title="New Load"
+        subtitle="Create a new load entry"
+        onPress={() => router.push("/(tabs)/new-load")}
+      />
+    <ActionButton
+        title="Invoices"
+        subtitle="View/export invoices"
+        onPress={() => router.push("/(tabs)/invoices")}
+    />
+</View>
 
       <Text style={styles.footer}>
         Tip: We’ll wire these to real screens next.
