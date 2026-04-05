@@ -1,98 +1,102 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import { View, Text, Pressable, StyleSheet, Alert } from "react-native";
 
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
+function ActionButton({
+  title,
+  subtitle,
+  onPress,
+}: {
+  title: string;
+  subtitle?: string;
+  onPress: () => void;
+}) {
+  return (
+    <Pressable
+      onPress={onPress}
+      style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+    >
+      <Text style={styles.cardTitle}>{title}</Text>
+      {!!subtitle && <Text style={styles.cardSubtitle}>{subtitle}</Text>}
+    </Pressable>
+  );
+}
 
 export default function HomeScreen() {
   return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+    <View style={styles.container}>
+      <Text style={styles.title}>Truck Tracker</Text>
+      <Text style={styles.subtitle}>What do you want to do?</Text>
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
+      <View style={styles.grid}>
+        <ActionButton
+          title="Start Shift"
+          subtitle="Start a timer for today"
+          onPress={() => Alert.alert("Start Shift", "Coming soon")}
+        />
+        <ActionButton
+          title="New Load"
+          subtitle="Create a new load entry"
+          onPress={() => Alert.alert("New Load", "Coming soon")}
+        />
+        <ActionButton
+          title="Invoices"
+          subtitle="View/export invoices"
+          onPress={() => Alert.alert("Invoices", "Coming soon")}
+        />
+      </View>
+
+      <Text style={styles.footer}>
+        Tip: We’ll wire these to real screens next.
+      </Text>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
+  container: {
+    flex: 1,
+    paddingTop: 64,
+    paddingHorizontal: 18,
+    backgroundColor: "#0B1220",
   },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
+  title: {
+    fontSize: 34,
+    fontWeight: "800",
+    color: "white",
+    letterSpacing: 0.2,
   },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
+  subtitle: {
+    marginTop: 8,
+    fontSize: 16,
+    color: "#B7C2D0",
+  },
+  grid: {
+    marginTop: 18,
+    gap: 12,
+  },
+  card: {
+    borderRadius: 16,
+    padding: 16,
+    backgroundColor: "#111C33",
+    borderWidth: 1,
+    borderColor: "#1E2A45",
+  },
+  cardPressed: {
+    opacity: 0.85,
+    transform: [{ scale: 0.995 }],
+  },
+  cardTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "white",
+  },
+  cardSubtitle: {
+    marginTop: 6,
+    fontSize: 14,
+    color: "#A9B6C8",
+  },
+  footer: {
+    marginTop: 22,
+    color: "#7F8AA0",
+    fontSize: 12,
   },
 });
