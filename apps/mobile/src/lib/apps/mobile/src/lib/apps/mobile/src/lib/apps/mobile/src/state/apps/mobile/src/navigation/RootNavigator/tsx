@@ -1,0 +1,49 @@
+import React, { useEffect, useState } from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import { supabase } from "../lib/supabase";
+
+import { LoginScreen } from "../screens/LoginScreen";
+import { HomeScreen } from "../screens/HomeScreen";
+import { CreateLoadScreen } from "../screens/CreateLoadScreen";
+import { TimerScreen } from "../screens/TimerScreen";
+import { InvoiceSummaryScreen } from "../screens/InvoiceSummaryScreen";
+import { UpgradeScreen } from "../screens/UpgradeScreen";
+
+export type RootStackParamList = {
+  Login: undefined;
+  Home: undefined;
+  CreateLoad: undefined;
+  Timer: { loadId: string };
+  InvoiceSummary: { loadId: string };
+  Upgrade: undefined;
+};
+
+const Stack = createNativeStackNavigator<RootStackParamList>();
+
+export function RootNavigator() {
+  const [authed, setAuthed] = useState(false);
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setAuthed(!!data.session));
+    const { data: sub } = supabase.auth.onAuthStateChange((_e, session) => {
+      setAuthed(!!session);
+    });
+    return () => sub.subscription.unsubscribe();
+  }, []);
+
+  return (
+    <Stack.Navigator>
+      {!authed ? (
+        <Stack.Screen name="Login" component={LoginScreen} options={{ title: "Login" }} />
+      ) : (
+        <>
+          <Stack.Screen name="Home" component={HomeScreen} options={{ title: "Truck_Tracker" }} />
+          <Stack.Screen name="CreateLoad" component={CreateLoadScreen} options={{ title: "Create Load" }} />
+          <Stack.Screen name="Timer" component={TimerScreen} options={{ title: "Timer" }} />
+          <Stack.Screen name="InvoiceSummary" component={InvoiceSummaryScreen} options={{ title: "Invoice Summary" }} />
+          <Stack.Screen name="Upgrade" component={UpgradeScreen} options={{ title: "Upgrade" }} />
+        </>
+      )}
+    </Stack.Navigator>
+  );
+}

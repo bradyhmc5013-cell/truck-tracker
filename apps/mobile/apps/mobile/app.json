@@ -1,0 +1,10 @@
+{
+  "expo": {
+    "name": "Truck_Tracker",
+    "slug": "truck-tracker",
+    "scheme": "trucktracker",
+    "android": {
+      "package": "com.trucktracker.app"
+    }
+  }
+}
